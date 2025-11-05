@@ -68,70 +68,53 @@
 
 
 
-/* ...existing code... */
-
-/* Ensure no horizontal scroll and center content */
+/* Prevent white gap/flash at the end of page on mobile — use site dark background everywhere */
 html, body, #root {
-  overflow-x: hidden; /* prevents left-right scrolling */
+  height: 100%;
+  min-height: 100%;
+  background-color: #0f1724; /* Tailwind slate-900 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: contain; /* prevents bounce showing underlying background */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ensure main and sections never show white behind translucent layers */
+main, section, footer, header {
+  background: transparent;
+  background-color: transparent;
+}
+
+/* ensure footer always uses dark background on mobile if it's translucent */
+footer {
+  background-color: rgba(15, 23, 36, 1) !important;
+}
+
+/* iOS safe-area background (avoid white under notch/home indicator) */
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: #0f1724;
+}
+
+/* avoid any accidental horizontal overflow on small screens */
+* {
   box-sizing: border-box;
 }
 
-/* center common max-width containers and give small side padding */
-.max-w-6xl,
-.max-w-5xl,
-.max-w-4xl,
-.container,
-main,
-section {
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  box-sizing: border-box;
-}
-
-/* ensure header inner doesn't overflow on small screens */
-header > .max-w-6xl,
-header > div.max-w-6xl {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
-/* guard against absolutely positioned / decorative elements causing overflow */
-.particle,
-.absolute-overlay,
-.bg-animated,
-.hero-decor {
-  max-width: 100vw;
-  left: 0;
-  right: 0;
-  pointer-events: none;
-}
-
-/* clamp large elements so they never exceed viewport width */
-img, iframe, video, .card, .group {
+/* clamp large images or absolute overlays that may push page size */
+img, iframe, video {
   max-width: 100%;
-  width: 100%;
   height: auto;
 }
 
-/* ensure cards and groups don't produce horizontal overflow from shadows/margins */
-.group, .card, article, section > .row {
-  overflow: hidden;
+/* optional: hide any accidental white backgrounds from third-party iframes on mobile overscroll */
+iframe {
+  background-color: transparent;
 }
 
-/* smaller paddings on very small screens to keep content centered */
-@media (max-width: 480px) {
-  .max-w-6xl,
-  .max-w-5xl,
-  .max-w-4xl,
-  main,
-  section {
-    padding-left: 0.75rem;
-    padding-right: 0.75rem;
-  }
-  header {
-    left: 0.5rem;
-    right: 0.5rem;
-  }
+/* If you use any full-bleed gradients with transparent stops, ensure dark fallback color */
+.bg-gradient-to-t,
+.bg-animated,
+.bg-hero {
+  background-color: #0f1724; /* fallback so transparency doesn't reveal white */
 }
