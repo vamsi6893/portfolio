@@ -68,54 +68,53 @@
 
 
 
-/* ...existing code... */
-
-/* Mobile fit & overflow fixes */
+/* Prevent white gap/flash at the end of page on mobile — use site dark background everywhere */
 html, body, #root {
   height: 100%;
-  overflow-x: hidden; /* prevent horizontal scroll on small screens */
+  min-height: 100%;
+  background-color: #0f1724; /* Tailwind slate-900 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: contain; /* prevents bounce showing underlying background */
+  -webkit-overflow-scrolling: touch;
 }
 
-/* Make fixed header inset on very small screens so rounded container doesn't overflow */
-@media (max-width: 640px) {
-  header.fixed {
-    left: 0.5rem;
-    right: 0.5rem;
-    top: 0.75rem; /* slightly reduce top gap */
-  }
+/* ensure main and sections never show white behind translucent layers */
+main, section, footer, header {
+  background: transparent;
+  background-color: transparent;
+}
 
-  header .max-w-6xl {
-    max-width: calc(100% - 1rem);
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-  }
+/* ensure footer always uses dark background on mobile if it's translucent */
+footer {
+  background-color: rgba(15, 23, 36, 1) !important;
+}
 
-  /* Reduce section paddings so content fits */
-  main, section {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+/* iOS safe-area background (avoid white under notch/home indicator) */
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: #0f1724;
+}
 
-  /* Ensure anchor scroll offset accounts for smaller header */
-  .scroll-mt-20 {
-    scroll-margin-top: 72px; /* adjust if header height changes */
-  }
+/* avoid any accidental horizontal overflow on small screens */
+* {
+  box-sizing: border-box;
+}
 
-  /* guard cards/content from shadows causing overflow */
-  .group, .card, article {
-    overflow: hidden;
-  }
+/* clamp large images or absolute overlays that may push page size */
+img, iframe, video {
+  max-width: 100%;
+  height: auto;
+}
 
-  /* make images flexible and limit height in hero/large images */
-  img {
-    max-width: 100%;
-    height: auto;
-  }
+/* optional: hide any accidental white backgrounds from third-party iframes on mobile overscroll */
+iframe {
+  background-color: transparent;
+}
 
-  /* if you have a hero/profile block, limit its height on very small screens */
-  .hero-img, .profile-img {
-    max-height: 46vh;
-    width: auto;
-    object-fit: cover;
-  }
+/* If you use any full-bleed gradients with transparent stops, ensure dark fallback color */
+.bg-gradient-to-t,
+.bg-animated,
+.bg-hero {
+  background-color: #0f1724; /* fallback so transparency doesn't reveal white */
 }
