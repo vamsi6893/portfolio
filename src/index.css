@@ -64,3 +64,58 @@
 .cursor-enlarge:hover + .custom-cursor-ring {
   transform: scale(1.6) !important;
 }
+
+
+
+
+/* ...existing code... */
+
+/* Mobile fit & overflow fixes */
+html, body, #root {
+  height: 100%;
+  overflow-x: hidden; /* prevent horizontal scroll on small screens */
+}
+
+/* Make fixed header inset on very small screens so rounded container doesn't overflow */
+@media (max-width: 640px) {
+  header.fixed {
+    left: 0.5rem;
+    right: 0.5rem;
+    top: 0.75rem; /* slightly reduce top gap */
+  }
+
+  header .max-w-6xl {
+    max-width: calc(100% - 1rem);
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  /* Reduce section paddings so content fits */
+  main, section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Ensure anchor scroll offset accounts for smaller header */
+  .scroll-mt-20 {
+    scroll-margin-top: 72px; /* adjust if header height changes */
+  }
+
+  /* guard cards/content from shadows causing overflow */
+  .group, .card, article {
+    overflow: hidden;
+  }
+
+  /* make images flexible and limit height in hero/large images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* if you have a hero/profile block, limit its height on very small screens */
+  .hero-img, .profile-img {
+    max-height: 46vh;
+    width: auto;
+    object-fit: cover;
+  }
+}
