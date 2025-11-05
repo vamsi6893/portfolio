@@ -65,9 +65,6 @@
   transform: scale(1.6) !important;
 }
 
-
-
-
 /* Prevent white gap/flash at the end of page on mobile — use site dark background everywhere */
 html, body, #root {
   height: 100%;
@@ -77,6 +74,21 @@ html, body, #root {
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior-y: contain; /* prevents bounce showing underlying background */
   -webkit-overflow-scrolling: touch;
+  overflow-x: hidden; /* prevent horizontal scrolling */
+}
+
+/* center main containers and add side padding */
+.max-w-6xl,
+.max-w-5xl,
+.max-w-4xl,
+.container,
+main,
+section {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
 }
 
 /* ensure main and sections never show white behind translucent layers */
@@ -117,4 +129,405 @@ iframe {
 .bg-animated,
 .bg-hero {
   background-color: #0f1724; /* fallback so transparency doesn't reveal white */
+}
+
+/* guard absolutely positioned decorative elements from causing horizontal overflow */
+.particle,
+.absolute-overlay,
+.bg-animated,
+.hero-decor,
+.hero-decor * {
+  max-width: 100vw;
+  left: 50%;
+  transform: translateX(-50%) !important;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* ensure header inner doesn't overflow on small screens */
+header.fixed,
+header {
+  box-sizing: border-box;
+}
+
+/* small screens: center everything, stack flex rows, tighten paddings */
+@media (max-width: 768px) {
+  main,
+  section,
+  header,
+  footer,
+  .container,
+  .max-w-6xl,
+  .max-w-5xl,
+  .max-w-4xl {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* force common flex rows to stack vertically and center */
+  .flex,
+  .flex-row,
+  .flex-row-reverse,
+  .lg\:flex-row,
+  .items-start,
+  .justify-start {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* grids center children */
+  .grid,
+  .md\:grid-cols-2,
+  .lg\:grid-cols-3 {
+    place-items: center;
+  }
+
+  /* prevent timeline absolute positioning from pushing layout */
+  .md\:absolute,
+  .md\:left-0,
+  .md\:top-1\/2,
+  .md\:-translate-y-1\/2 {
+    position: static !important;
+    transform: none !important;
+    left: auto !important;
+    top: auto !important;
+  }
+
+  /* ensure header fits within small viewport */
+  header.fixed {
+    left: 0.5rem;
+    right: 0.5rem;
+    top: 0.75rem;
+  }
+
+  /* reduce section paddings so content fits */
+  .py-16 {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+  .px-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* ensure decorative elements are centered and clipped */
+  .particle,
+  .absolute-overlay,
+  .hero-decor {
+    max-width: 100vw;
+    left: 50%;
+    transform: translateX(-50%) !important;
+  }
+
+  /* images and media center */
+  .group img,
+  article img,
+  .profile-img,
+  .hero-img,
+  .project-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* cards and groups: center text & prevent overflow */
+  .group,
+  article,
+  .card,
+  .bg-white\/3,
+  .bg-white\/5 {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+  }
+}
+
+/* very small screens tweaks */
+@media (max-width: 480px) {
+  .max-w-6xl,
+  .max-w-5xl,
+  .max-w-4xl,
+  main,
+  section {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  header {
+    left: 0.5rem;
+    right: 0.5rem;
+  }
+}
+```// filepath: e:\MY Page\portfolio\src\index.css
+@import "tailwindcss";
+/* ...existing code ... */
+
+/* --- Custom cursor styles (do NOT hide system cursor) --- */
+:root {
+  --cursor-dot: 8px;
+  --cursor-ring: 36px;
+}
+
+/* DO NOT set body { cursor: none }; keep native cursor visible */
+/* only hide on inputs/links where browser provides helpful cursor (we keep defaults) */
+
+/* dot and ring overlay */
+.custom-cursor-dot,
+.custom-cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate3d(-50%, -50%, 0);
+  transition: opacity 120ms linear, transform 120ms linear;
+  mix-blend-mode: normal;
+}
+
+/* small solid dot (snaps to cursor) */
+.custom-cursor-dot {
+  width: var(--cursor-dot);
+  height: var(--cursor-dot);
+  background: linear-gradient(90deg, rgba(255,255,255,0.98), rgba(203,213,255,0.95));
+  border-radius: 9999px;
+  box-shadow: 0 6px 18px rgba(99, 102, 241, 0.12);
+  opacity: 0;
+  transition: opacity 120ms linear, transform 60ms linear;
+}
+
+/* subtle ring that lags slightly (less lag than before) */
+.custom-cursor-ring {
+  width: var(--cursor-ring);
+  height: var(--cursor-ring);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  opacity: 0;
+  transition: opacity 160ms ease, transform 160ms ease, border-color 160ms ease;
+}
+
+.custom-cursor-ring.active {
+  border-color: rgba(99, 102, 241, 0.95);
+  background: rgba(99, 102, 241, 0.06);
+  opacity: 0.95;
+}
+
+/* hide overlays on small / touch devices */
+@media (max-width: 768px) {
+  .custom-cursor-dot,
+  .custom-cursor-ring {
+    display: none;
+  }
+}
+
+/* You can add .cursor-enlarge on elements to enlarge ring on hover */
+.cursor-enlarge:hover ~ .custom-cursor-ring,
+.cursor-enlarge:hover + .custom-cursor-ring {
+  transform: scale(1.6) !important;
+}
+
+/* Prevent white gap/flash at the end of page on mobile — use site dark background everywhere */
+html, body, #root {
+  height: 100%;
+  min-height: 100%;
+  background-color: #0f1724; /* Tailwind slate-900 */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: contain; /* prevents bounce showing underlying background */
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden; /* prevent horizontal scrolling */
+}
+
+/* center main containers and add side padding */
+.max-w-6xl,
+.max-w-5xl,
+.max-w-4xl,
+.container,
+main,
+section {
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  box-sizing: border-box;
+}
+
+/* ensure main and sections never show white behind translucent layers */
+main, section, footer, header {
+  background: transparent;
+  background-color: transparent;
+}
+
+/* ensure footer always uses dark background on mobile if it's translucent */
+footer {
+  background-color: rgba(15, 23, 36, 1) !important;
+}
+
+/* iOS safe-area background (avoid white under notch/home indicator) */
+body {
+  padding-bottom: env(safe-area-inset-bottom);
+  background-color: #0f1724;
+}
+
+/* avoid any accidental horizontal overflow on small screens */
+* {
+  box-sizing: border-box;
+}
+
+/* clamp large images or absolute overlays that may push page size */
+img, iframe, video {
+  max-width: 100%;
+  height: auto;
+}
+
+/* optional: hide any accidental white backgrounds from third-party iframes on mobile overscroll */
+iframe {
+  background-color: transparent;
+}
+
+/* If you use any full-bleed gradients with transparent stops, ensure dark fallback color */
+.bg-gradient-to-t,
+.bg-animated,
+.bg-hero {
+  background-color: #0f1724; /* fallback so transparency doesn't reveal white */
+}
+
+/* guard absolutely positioned decorative elements from causing horizontal overflow */
+.particle,
+.absolute-overlay,
+.bg-animated,
+.hero-decor,
+.hero-decor * {
+  max-width: 100vw;
+  left: 50%;
+  transform: translateX(-50%) !important;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+
+/* ensure header inner doesn't overflow on small screens */
+header.fixed,
+header {
+  box-sizing: border-box;
+}
+
+/* small screens: center everything, stack flex rows, tighten paddings */
+@media (max-width: 768px) {
+  main,
+  section,
+  header,
+  footer,
+  .container,
+  .max-w-6xl,
+  .max-w-5xl,
+  .max-w-4xl {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* force common flex rows to stack vertically and center */
+  .flex,
+  .flex-row,
+  .flex-row-reverse,
+  .lg\:flex-row,
+  .items-start,
+  .justify-start {
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  /* grids center children */
+  .grid,
+  .md\:grid-cols-2,
+  .lg\:grid-cols-3 {
+    place-items: center;
+  }
+
+  /* prevent timeline absolute positioning from pushing layout */
+  .md\:absolute,
+  .md\:left-0,
+  .md\:top-1\/2,
+  .md\:-translate-y-1\/2 {
+    position: static !important;
+    transform: none !important;
+    left: auto !important;
+    top: auto !important;
+  }
+
+  /* ensure header fits within small viewport */
+  header.fixed {
+    left: 0.5rem;
+    right: 0.5rem;
+    top: 0.75rem;
+  }
+
+  /* reduce section paddings so content fits */
+  .py-16 {
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
+  }
+  .px-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* ensure decorative elements are centered and clipped */
+  .particle,
+  .absolute-overlay,
+  .hero-decor {
+    max-width: 100vw;
+    left: 50%;
+    transform: translateX(-50%) !important;
+  }
+
+  /* images and media center */
+  .group img,
+  article img,
+  .profile-img,
+  .hero-img,
+  .project-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* cards and groups: center text & prevent overflow */
+  .group,
+  article,
+  .card,
+  .bg-white\/3,
+  .bg-white\/5 {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+  }
+}
+
+/* very small screens tweaks */
+@media (max-width: 480px) {
+  .max-w-6xl,
+  .max-w-5xl,
+  .max-w-4xl,
+  main,
+  section {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  header {
+    left: 0.5rem;
+    right: 0.5rem;
+  }
 }
