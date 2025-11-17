@@ -1,4 +1,19 @@
 import React from "react";
+import { motion } from "framer-motion";
+
+const sectionVariant = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: "easeOut", staggerChildren: 0.08 },
+  },
+};
+
+const itemVariant = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
+};
 
 const projects = [
   {
@@ -10,7 +25,7 @@ const projects = [
     description:
       "Users take quizzes on topics like C, Java and MongoDB. Features contest creation, leaderboard and dark/light mode. Results stored in MongoDB.",
     image: "/images/projects/brain-battle.png",
-    live: "#", // replace with live URL if available
+    live: "https://brain-battle-kappa.vercel.app/",
     github: "https://github.com/vamsi6893/Quiz_app",
   },
   {
@@ -22,21 +37,29 @@ const projects = [
     description:
       "Secure login with JWT, real-time weather by location using OpenWeather API and responsive UI built with React.",
     image: "/images/projects/weather-app.png",
-    live: "#", // replace with live URL if available
+    live: "#",
     github: "https://github.com/your-github-username/weather-app-repo",
   },
 ];
 
 export default function Projects() {
   return (
-    <section id="projects" className="py-16 px-6 lg:px-24 bg-slate-900 text-gray-100">
+    <motion.section
+      id="projects"
+      className="py-16 px-6 lg:px-24 bg-slate-900 text-gray-100"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.12 }}
+      variants={sectionVariant}
+    >
       <div className="max-w-6xl mx-auto">
-        <h2 className="text-3xl font-bold mb-6">Projects</h2>
+        <h2 className="text-3xl font-bold mb-8">Projects</h2>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
           {projects.map((p) => (
-            <article
+            <motion.article
               key={p.id}
+              variants={itemVariant}
               className="group bg-white/3 rounded-lg overflow-hidden shadow-md hover:shadow-xl transform hover:-translate-y-1 transition"
             >
               <div className="relative h-44 bg-gray-800">
@@ -70,14 +93,16 @@ export default function Projects() {
 
                 <p className="text-gray-300 text-sm mt-3 flex-1">{p.description}</p>
 
-                <div className="mt-4 flex items-center gap-3">
+                <div className="mt-4 flex flex-col sm:flex-row items-center gap-3">
                   <a
                     href={p.live}
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`View ${p.title}`}
-                    className={`inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition ${
-                      p.live && p.live !== "#" ? "bg-indigo-600 text-white hover:bg-indigo-500" : "bg-white/5 text-gray-300 opacity-60 pointer-events-none"
+                    className={`inline-flex items-center px-3 py-2 rounded-md text-sm font-medium transition w-full sm:w-auto justify-center ${
+                      p.live && p.live !== "#"
+                        ? "bg-indigo-600 text-white hover:bg-indigo-500"
+                        : "bg-white/5 text-gray-300 opacity-60 pointer-events-none"
                     }`}
                   >
                     View Project
@@ -88,9 +113,8 @@ export default function Projects() {
                     target="_blank"
                     rel="noreferrer"
                     aria-label={`${p.title} on GitHub`}
-                    className="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium bg-white/6 hover:bg-white/10 transition text-gray-100"
+                    className="inline-flex items-center justify-center px-3 py-2 rounded-md text-sm font-medium bg-white/6 hover:bg-white/10 transition text-gray-100 w-full sm:w-auto"
                   >
-                    {/* GitHub icon */}
                     <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
                       <path d="M12 .297a12 12 0 00-3.793 23.4c.6.11.793-.26.793-.58v-2.04c-3.22.7-3.9-1.55-3.9-1.55-.546-1.38-1.333-1.75-1.333-1.75-1.09-.746.083-.73.083-.73 1.205.085 1.84 1.237 1.84 1.237 1.07 1.83 2.8 1.3 3.483.995.108-.773.418-1.3.762-1.6-2.57-.29-5.27-1.285-5.27-5.72 0-1.263.45-2.295 1.187-3.103-.118-.29-.516-1.463.113-3.05 0 0 .967-.31 3.17 1.186a11.01 11.01 0 012.887-.388c.98.005 1.97.132 2.887.388 2.2-1.496 3.165-1.186 3.165-1.186.632 1.587.235 2.76.116 3.05.74.808 1.187 1.84 1.187 3.103 0 4.448-2.705 5.427-5.283 5.71.43.372.81 1.1.81 2.22v3.293c0 .32.19.7.8.58A12 12 0 0012 .297" />
                     </svg>
@@ -98,10 +122,11 @@ export default function Projects() {
                   </a>
                 </div>
               </div>
-            </article>
+            </motion.article>
           ))}
         </div>
       </div>
-    </section>
+    </motion.section>
   );
 }
+// ...existing code...
