@@ -120,3 +120,31 @@ iframe {
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+/* Disable text selection and copying */
+body, main, section, .no-select {
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+/* Prevent copy, cut, paste */
+* {
+  -webkit-touch-callout: none;
+}
+
+/* Disable right-click context menu */
+body {
+  pointer-events: auto;
+}

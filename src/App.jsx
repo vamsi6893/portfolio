@@ -9,6 +9,7 @@ import Certifications from "./pages/Certifications";
 import Contact from "./pages/Contact";
 import Footer from "./components/Footer";
 import Cursor from "./components/Cursor";
+import Hobbies from "./pages/Hobbies";
 import "./index.css";
 
 function NavLink({ to, children }) {
@@ -50,6 +51,7 @@ export default function App() {
             <NavLink to="projects">Projects</NavLink>
             <NavLink to="skills">Skills</NavLink>
             <NavLink to="certifications">Certifications</NavLink>
+            <NavLink to="hobbies">Hobbies</NavLink>
             <NavLink to="contact">Contact</NavLink>
             <a
               href="/resume.pdf"
@@ -70,6 +72,7 @@ export default function App() {
                 <NavLink to="projects">Projects</NavLink>
                 <NavLink to="skills">Skills</NavLink>
                 <NavLink to="certifications">Certifications</NavLink>
+                <NavLink to="hobbies">Hobbies</NavLink>
                 <NavLink to="contact">Contact</NavLink>
                 <a
                   href="/resume.pdf"
@@ -105,6 +108,10 @@ export default function App() {
 
         <section id="certifications" className="scroll-mt-20">
           <Certifications />
+        </section>
+
+        <section id="hobbies" className="scroll-mt-20">
+          <Hobbies />
         </section>
 
         <section id="contact" className="scroll-mt-20">
