@@ -31,7 +31,7 @@ const certs = [
     issuer: "Oracle",
     date: "2025",
     logo: "/images/oracle.png",
-    url: "https://catalog-education.oracle.com/pls/certview/sharebadge?id=6263664F73CE318D1303A45AC11377F9737E9F23EB8D879A71AF1CE751DB5767",
+    url: null,
     pdf: "/certificates/oracle-oci-2025.pdf",
   },
   {
@@ -40,8 +40,17 @@ const certs = [
     issuer: "Aviatrix",
     date: "2025",
     logo: "/images/aviatrix.png",
-    url: "https://www.aviatrix.com/",
+    url: null,
     pdf: "/certificates/aviatrix-ace.pdf",
+  },
+  {
+    id: "nptel-cloud-computing",
+    title: "Cloud Computing",
+    issuer: "NPTEL",
+    date: "2025",
+    logo: "/images/nptel.png",
+    url: "#",
+    pdf: "/certificates/nptel-cloud-computing.pdf",
   },
 ];
 
@@ -80,14 +89,16 @@ export default function Certifications() {
               </div>
 
               <div className="flex flex-col gap-2">
-                <a
-                  href={c.url}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow hover:opacity-95 transition text-sm whitespace-nowrap"
-                >
-                  View Credential
-                </a>
+                {c.url && c.url !== "#" && (
+                  <a
+                    href={c.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center justify-center px-4 py-2 rounded-md bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow hover:opacity-95 transition text-sm whitespace-nowrap"
+                  >
+                    View Credential
+                  </a>
+                )}
 
                 {c.pdf && (
                   <a
