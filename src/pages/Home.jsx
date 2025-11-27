@@ -67,6 +67,17 @@ export default function Home() {
               Designing scalable cloud solutions and building full-stack web apps.
             </p>
 
+            {/* 💠 Added Your Objective Section Here */}
+            <motion.p
+              variants={itemVariants}
+              className="mt-4 text-gray-300 leading-relaxed"
+            >
+              Seeking a challenging position in Cloud Computing and DevOps to leverage my
+              expertise in AWS, Docker, and automation tools. Aiming to design and deploy
+              scalable, secure, and cost-efficient cloud solutions while contributing to
+              innovative projects that drive digital transformation.
+            </motion.p>
+
             <motion.div
               variants={itemVariants}
               className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center lg:justify-start"
